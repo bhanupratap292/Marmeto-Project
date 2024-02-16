@@ -1,0 +1,26 @@
+function displayApiData(data) {
+    const apiDataSection = document.getElementById('apiData');
+
+    data.forEach(product => {
+        const productElement = document.createElement('div');
+
+
+        let productImage = '<img src="placeholder.png" alt="Product image">';
+
+        if (product.image && validImageURL(product.image)) {
+            productImage = `<img src="${product.image}" alt="${product.name}">`;
+        }
+
+        productElement.innerHTML = `
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      ${productImage}
+    `;
+
+        apiDataSection.appendChild(productElement);
+    });
+}
+
+function validImageURL(url) {
+    return true;
+}
