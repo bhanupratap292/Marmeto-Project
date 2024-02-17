@@ -1,26 +1,33 @@
-function displayApiData(data) {
-    const apiDataSection = document.getElementById('apiData');
+const apiUrl = 'https://pixso.net/app/link?url=https%3A%2F%2Fproducts-api-2ttf.onrender.com%2Fapi%2Fproducts'; 
+const searchInput = document.getElementById('search');
+const productsContainer = document.querySelector('.products');
 
-    data.forEach(product => {
-        const productElement = document.createElement('div');
-
-
-        let productImage = '<img src="placeholder.png" alt="Product image">';
-
-        if (product.image && validImageURL(product.image)) {
-            productImage = `<img src="${product.image}" alt="${product.name}">`;
-        }
-
-        productElement.innerHTML = `
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      ${productImage}
-    `;
-
-        apiDataSection.appendChild(productElement);
+fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        
+        displayProducts(data);
+    })
+    .catch(error => {
+        console.error('Error fetching products:', error);
     });
-}
 
-function validImageURL(url) {
-    return true;
+function displayProducts(products) {
+    productsContainer.innerHTML = '';
+
+    products.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.classList.add('product');
+
+        const productImage = document.createElement('img');
+        productImage.src = product.image;
+        productItem.appendChild(productImage);
+
+        const productTitle = document.createElement('h3');
+        productTitle.textContent = product.title;
+        productItem.appendChild(productTitle);
+
+
+        productsContainer.appendChild(productItem);
+    });
 }
